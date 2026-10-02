@@ -2,6 +2,9 @@
   "name": "angular-conversational-ai-client",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "ng serve",
     "build": "ng build"

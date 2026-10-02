@@ -1,0 +1,179 @@
+<div class="workspace">
+  <aside class="sidebar" [class.show]="sidebarOpen()">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <div>
+        <strong>Conversational AI</strong>
+        <small>Angular · Node · SSE</small>
+      </div>
+    </div>
+
+    <button class="new-chat" (click)="newChat()">+ New chat</button>
+
+    <nav class="conversations">
+      @if (conversations().length === 0) {
+        <p class="muted">No conversations yet.</p>
+      }
+      @for (conversation of conversations(); track conversation.id) {
+        <button
+          class="conversation"
+          [class.active]="conversation.id === activeId()"
+          (click)="select(conversation)"
+        >
+          <span class="conversation-title">{{ conversation.title }}</span>
+          <span class="conversation-delete" (click)="remove(conversation, $event)" title="Delete">×</span>
+        </button>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="knowledge-btn" (click)="toggleKnowledge()">
+        Knowledge base
+        <span class="badge">{{ documents().length }}</span>
+      </button>
+      <div class="user">
+        <div class="user-info">
+          <strong>{{ session.user()?.name }}</strong>
+          <small>{{ session.user()?.email }}</small>
+        </div>
+        <button class="logout" (click)="session.logout()">Sign out</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu" (click)="sidebarOpen.set(!sidebarOpen())">☰</button>
+      <div class="topbar-title">
+        <strong>{{ activeTitle() }}</strong>
+        <small>{{ providerLabel() }}</small>
+      </div>
+      <div class="toggles">
+        <label class="toggle" [class.on]="useRag()">
+          <input type="checkbox" [ngModel]="useRag()" (ngModelChange)="useRag.set($event)" />
+          RAG
+        </label>
+        <label class="toggle" [class.on]="useTools()">
+          <input type="checkbox" [ngModel]="useTools()" (ngModelChange)="useTools.set($event)" />
+          Tools
+        </label>
+      </div>
+    </header>
+
+    <section class="messages" #scroller>
+      @if (messages().length === 0) {
+        <div class="empty">
+          <h2>How can I help?</h2>
+          <p>Try “What is the refund policy?” or “What is (12 + 8) * 3?”</p>
+          @if (tools().length) {
+            <div class="tool-hints">
+              @for (tool of tools(); track tool.name) {
+                <span class="tool-hint" [title]="tool.description">{{ tool.name }}</span>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @for (message of messages(); track message.id) {
+        @if (message.role === 'tool') {
+          <div class="tool-chip">
+            <span class="tool-chip-name">tool · {{ message.toolName }}</span>
+            <code>{{ message.content }}</code>
+          </div>
+        } @else {
+          <article class="message" [class.user]="message.role === 'user'">
+            <div class="avatar">{{ message.role === 'user' ? 'You' : 'AI' }}</div>
+            <div class="bubble">
+              @if (!message.content && message.id === '__stream__') {
+                <span class="typing"><i></i><i></i><i></i></span>
+              } @else {
+                {{ message.content }}
+              }
+            </div>
+          </article>
+        }
+      }
+
+      @if (retrievals().length) {
+        <div class="retrieval">
+          <span class="retrieval-label">Retrieved context</span>
+          @for (match of retrievals(); track $index) {
+            <div class="retrieval-item">
+              <div class="retrieval-head">
+                <strong>{{ match.document }}</strong>
+                <span class="score">{{ match.score }}</span>
+              </div>
+              <p>{{ match.excerpt }}</p>
+            </div>
+          }
+        </div>
+      }
+
+      @if (error()) {
+        <div class="error">{{ error() }}</div>
+      }
+    </section>
+
+    <footer class="composer">
+      <textarea
+        [ngModel]="input()"
+        (ngModelChange)="input.set($event)"
+        (keydown)="onKeydown($event)"
+        placeholder="Message the AI…  (Enter to send, Shift+Enter for a new line)"
+        rows="2"
+      ></textarea>
+      @if (streaming()) {
+        <button class="stop" (click)="stop()">Stop</button>
+      } @else {
+        <button (click)="send()" [disabled]="!input().trim()">Send</button>
+      }
+    </footer>
+  </main>
+
+  @if (knowledgeOpen()) {
+    <div class="drawer-backdrop" (click)="toggleKnowledge()"></div>
+    <aside class="drawer">
+      <header class="drawer-head">
+        <strong>Knowledge base</strong>
+        <button (click)="toggleKnowledge()">×</button>
+      </header>
+      <p class="muted">
+        Documents are chunked and embedded on the server so the assistant can retrieve them (RAG).
+      </p>
+
+      <form class="doc-form" (ngSubmit)="addDocument()">
+        <input
+          name="title"
+          placeholder="Document title"
+          [ngModel]="docTitle()"
+          (ngModelChange)="docTitle.set($event)"
+        />
+        <textarea
+          name="content"
+          rows="5"
+          placeholder="Paste document text…"
+          [ngModel]="docContent()"
+          (ngModelChange)="docContent.set($event)"
+        ></textarea>
+        @if (docError()) {
+          <div class="error small">{{ docError() }}</div>
+        }
+        <button type="submit" [disabled]="docBusy()">
+          {{ docBusy() ? 'Embedding…' : 'Add document' }}
+        </button>
+      </form>
+
+      <div class="doc-list">
+        @for (document of documents(); track document.id) {
+          <div class="doc">
+            <span>{{ document.title }}</span>
+            <button (click)="removeDocument(document)">Remove</button>
+          </div>
+        } @empty {
+          <p class="muted">No documents yet.</p>
+        }
+      </div>
+    </aside>
+  }
+</div>

@@ -12,11 +12,18 @@
     "sse",
     "streaming",
     "openai",
+    "rag",
+    "tool-calling",
+    "sqlite",
     "conversational-ai"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
+    "start": "npm run dev",
     "install:all": "npm install && npm --prefix server install && npm --prefix client install",
-    "dev": "concurrently -n server,client -c cyan,green \"npm --prefix server run dev\" \"npm --prefix client start\"",
+    "dev": "concurrently -k -n server,client -c cyan,green \"npm --prefix server run dev\" \"npm --prefix client start\"",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client start",
     "build": "npm --prefix client run build",

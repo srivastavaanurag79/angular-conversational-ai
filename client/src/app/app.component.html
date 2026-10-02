@@ -1,43 +1,7 @@
-<main class="shell">
-  <header class="header">
-    <div>
-      <h1>Conversational AI</h1>
-      <p>Angular + Node.js + Server-Sent Events</p>
-    </div>
-    <button class="clear" (click)="clear()">Clear</button>
-  </header>
-
-  <section class="messages">
-    @if (messages.length === 0) {
-      <div class="empty">
-        <h2>How can I help?</h2>
-        <p>Ask something and watch the response stream in real time.</p>
-      </div>
-    }
-
-    @for (message of messages; track $index) {
-      <article class="message" [class.user]="message.role === 'user'">
-        <div class="avatar">{{ message.role === 'user' ? 'You' : 'AI' }}</div>
-        <div class="bubble">{{ message.content }}</div>
-      </article>
-    }
-
-    @if (loading) {
-      <div class="typing">AI is thinking…</div>
-    }
-  </section>
-
-  <footer class="composer">
-    <textarea
-      [(ngModel)]="input"
-      (keydown)="onKeydown($event)"
-      placeholder="Message the AI…"
-      rows="2"
-    ></textarea>
-    @if (loading) {
-      <button class="stop" (click)="stop()">Stop</button>
-    } @else {
-      <button (click)="send()" [disabled]="!input.trim()">Send</button>
-    }
-  </footer>
-</main>
+@if (!session.ready()) {
+  <div class="boot">Loading…</div>
+} @else if (session.isAuthenticated()) {
+  <app-chat />
+} @else {
+  <app-login />
+}

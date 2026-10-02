@@ -1,0 +1,144 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.login-page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1100px 500px at 15% -10%, rgba(91, 91, 214, 0.18), transparent 60%),
+    #f7f7f8;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid #e4e5e8;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 24px 60px rgba(23, 24, 28, 0.08);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.login-brand strong {
+  display: block;
+  font-size: 15px;
+}
+
+.login-brand small {
+  color: #6b7280;
+  font-size: 11px;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #5b5bd6;
+  box-shadow: 0 0 0 4px rgba(91, 91, 214, 0.2);
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 23px;
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+input {
+  border: 1px solid #d2d4d9;
+  border-radius: 10px;
+  padding: 11px 13px;
+  outline: none;
+  font-weight: 400;
+}
+
+input:focus {
+  border-color: #5b5bd6;
+}
+
+form > button {
+  margin-top: 4px;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  background: #5b5bd6;
+  color: #fff;
+  font-weight: 600;
+}
+
+form > button:disabled {
+  opacity: 0.5;
+}
+
+.login-error {
+  background: #fff5f5;
+  border: 1px solid #f3c2c2;
+  color: #a12626;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+.demo-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding: 10px 12px;
+  background: #f7f7f8;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.demo-hint code {
+  color: #1f2328;
+}
+
+.demo-hint button {
+  margin-left: auto;
+  border: 1px solid #d2d4d9;
+  background: #fff;
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.switch {
+  margin-top: 14px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #5b5bd6;
+  font-size: 13px;
+}

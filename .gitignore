@@ -14,6 +14,12 @@ build/
 .env.local
 .env.*.local
 
+# Local SQLite database
+server/data/
+*.db
+*.db-wal
+*.db-shm
+
 # Logs
 *.log
 npm-debug.log*
@@ -44,3 +50,6 @@ desktop.ini
 .cache/
 .temp/
 *.tsbuildinfo
+
+# Private article working notes (not part of the published repo)
+article.md
