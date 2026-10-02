@@ -4,9 +4,7 @@ A full-stack, production-shaped starter for building a **streaming conversationa
 
 It is the companion repository for the article **“Building Conversational AI with Angular: A Practical Guide with Node.js and Streaming.”**
 
-> Read the article: **[Building Conversational AI with Angular: A Practical Guide with Node.js and Streaming](ADD_YOUR_MEDIUM_ARTICLE_URL_HERE)**
-
-<!-- Replace ADD_YOUR_MEDIUM_ARTICLE_URL_HERE with the published article URL. -->
+> Read the article: **[Building Conversational AI with Angular: A Practical Guide with Node.js and Streaming](https://medium.com/@srivastavaanurag79/building-conversational-ai-with-angular-a-practical-guide-with-node-js-and-streaming-c7e3b4cdc350)**
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)
